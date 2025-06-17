@@ -11,8 +11,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const cycleLength = 31;
-const periodLength = 5;
+const cycleLength = 32;
+const periodLength = 6;
 
 function normalizeDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -24,7 +24,6 @@ function renderCalendar(startDateStr) {
   container.empty();
 
   const today = new Date();
-  today.setMonth(today.getMonth() - 1); // Starte 1 Monat vor dem aktuellen Monat
 
   const monthsToShow = 12;
 
@@ -59,7 +58,7 @@ function renderCalendar(startDateStr) {
     if (dayInCycle < 2) {
       dayEl.addClass("heavy");
     }
-  } else if (dayInCycle >= 14 && dayInCycle <= 18) {
+  } else if (dayInCycle >= 13 && dayInCycle <= 18) {
     dayEl.addClass("fertile");
     if (dayInCycle === 17) {
       dayEl.addClass("ovulation");
@@ -89,13 +88,14 @@ function loadLastStart() {
     if (val) {
       $("#lastStart").val(val);
       renderCalendar(val);
+      showFunnyMessage(val); // ➕ WICHTIG: hier aufrufen!
     } else {
-      // Kein Datum gespeichert: Standard = heute - 3 Tage
       const fallbackDate = new Date();
       fallbackDate.setDate(fallbackDate.getDate() - 3);
       const fallbackStr = fallbackDate.toISOString().slice(0, 10);
       $("#lastStart").val(fallbackStr);
       renderCalendar(fallbackStr);
+      showFunnyMessage(fallbackStr); // ➕ auch hier
     }
   });
 }
@@ -139,3 +139,26 @@ $(function () {
     saveLastStart(todayStr);
   });
 });
+
+function showFunnyMessage(startDateStr) {
+  const today = new Date();
+  const start = new Date(startDateStr);
+  const daysDiff = Math.floor((normalizeDate(today) - normalizeDate(start)) / (1000 * 60 * 60 * 24));
+  const cycleDay = ((daysDiff % cycleLength) + cycleLength) % cycleLength;
+
+  let message = "";
+
+  if (cycleDay === 1 || cycleDay === 2) {
+    message = "Status: 🩸 Blutbad mit Schmerzgarantie 🩸";
+  } else if (cycleDay >= 3 && cycleDay <= 6) {
+    message = "Status: 🩸 Blutet aber überlebt 🩸";
+  } else if (cycleDay === 17) {
+    message = "Status: 💦 Lust-Level auf MAX 💦";
+  } else if (cycleDay >= 14 && cycleDay <= 18) {
+    message = "Status: 💦 Fruchtbar und unwiderstehlich 💦";
+  } else {
+    message = "Status: 👌 Wieder bereit für Abenteuer 👌";
+  }
+
+  $("#funMessage").text(message);
+}

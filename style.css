@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
   margin: 20px;
-  max-width: 400px;
+  max-width: 500px;
   color: #5a1a4d;
   background-color: #fff0f6;
 }
@@ -30,7 +30,6 @@ button:hover {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
-  max-width: 420px;
   margin-top: 10px;
 }
 
@@ -58,12 +57,47 @@ button:hover {
 }
 
 .ovulation {
-  background-color: #6f6;  /* kräftiger grün für Eisprung */
-  font-weight: bold;
-  border: 2px solid #393;
+  background-color: rgb(82, 252, 82);  /* kräftiger grün für Eisprung */
+  font-weight: bold
 }
 
 .today {
-  border: 4px solid rgb(89, 0, 255);
-  font-weight: bold;
+  border: 4px solid #489ff5;
+  font-weight: bold
+}
+
+#calendarScrollContainer {
+  max-height: 50vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.legend-box {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Farben aus dem Kalender übernehmen */
+.legend-box.period {
+  background-color: #f88;
+}
+
+.legend-box.heavy {
+  background-color: #c44;
+}
+
+.legend-box.fertile {
+  background-color: #cfc;
+}
+
+.legend-box.ovulation {
+  background-color: rgb(82, 252, 82);
+}
+
+.legend-box.today {
+  background-color: #489ff5;
 }

@@ -16,8 +16,35 @@
   <button id="markTodayBtn">Heute hat meine Periode begonnen</button>
   <button id="saveBtn">Speichern</button>
 
-  <h2>Kalender der nächsten 3 Monate</h2>
+  <h2>Kalender des nächsten Jahres</h2>
+  <p id="funMessage" style="font-weight: bold; font-size: 1.1em; margin-top: 20px;"></p>
+  <div id="calendarScrollContainer">
   <div id="calendarContainer"></div>
+</div>
+
+
+
+  <div id="legend" style="margin-top: 20px;">
+  <strong>Legende:</strong>
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
+    <div style="display: flex; align-items: center;">
+      <div class="legend-box period"></div> Periode
+    </div>
+    <div style="display: flex; align-items: center;">
+      <div class="legend-box heavy"></div> Starke Blutung
+    </div>
+    <div style="display: flex; align-items: center;">
+      <div class="legend-box fertile"></div> Fruchtbar
+    </div>
+    <div style="display: flex; align-items: center;">
+      <div class="legend-box ovulation"></div> Eisprung
+    </div>
+    <div style="display: flex; align-items: center;">
+      <div class="legend-box today"></div> Heute
+    </div>
+  </div>
+</div>
+
 
   <script src="jquery.js"></script>
   <script src="script.js"></script>
