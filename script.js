@@ -48,26 +48,36 @@ function renderCalendar(startDateStr) {
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let d = 1; d <= daysInMonth; d++) {
-      const currentDate = new Date(year, month, d);
-      const diff = Math.floor((normalizeDate(currentDate) - normalizeDate(start)) / (1000 * 60 * 60 * 24));
-      const dayInCycle = ((diff % cycleLength) + cycleLength) % cycleLength;
+  const currentDate = new Date(year, month, d);
+  const diff = Math.floor((normalizeDate(currentDate) - normalizeDate(start)) / (1000 * 60 * 60 * 24));
+  const dayInCycle = ((diff % cycleLength) + cycleLength) % cycleLength;
 
-      const dayEl = $("<div>").addClass("day").text(d);
+  const dayEl = $("<div>").addClass("day").text(d);
 
-      if (dayInCycle >= 0 && dayInCycle < periodLength) {
-        dayEl.addClass("period");
-        if (dayInCycle < 2) {
-          dayEl.addClass("heavy");
-        }
-      } else if (dayInCycle >= 14 && dayInCycle <= 18) {
-        dayEl.addClass("fertile");
-        if (dayInCycle === 17) {
-          dayEl.addClass("ovulation");
-        }
-      }
-
-      container.append(dayEl);
+  if (dayInCycle >= 0 && dayInCycle < periodLength) {
+    dayEl.addClass("period");
+    if (dayInCycle < 2) {
+      dayEl.addClass("heavy");
     }
+  } else if (dayInCycle >= 14 && dayInCycle <= 18) {
+    dayEl.addClass("fertile");
+    if (dayInCycle === 17) {
+      dayEl.addClass("ovulation");
+    }
+  }
+
+  // **Hier NEU: Heute markieren**
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0); // Zeit zurücksetzen
+  const normalizedCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+  if (normalizedCurrentDate.getTime() === todayDate.getTime()) {
+    dayEl.addClass("today");
+  }
+
+  container.append(dayEl);
+}
+
   }
 }
 
