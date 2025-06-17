@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mein Zyklus-Kalender</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+</head>
+<body>
+  <h1>Mein Zyklus-Kalender</h1>
+
+  <label>Letzter Start: <input type="date" id="lastStart"></label><br /><br />
+  <button id="markTodayBtn">Heute hat meine Periode begonnen</button>
+  <button id="saveBtn">Speichern</button>
+
+  <h2>Kalender der nächsten 3 Monate</h2>
+  <div id="calendarContainer"></div>
+
+  <script src="jquery.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

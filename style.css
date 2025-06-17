@@ -1,0 +1,65 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  max-width: 400px;
+  color: #5a1a4d;
+  background-color: #fff0f6;
+}
+
+label {
+  font-weight: bold;
+}
+
+button {
+  background-color: #d63384;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  background-color: #9b1c57;
+}
+
+#calendarContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  max-width: 420px;
+  margin-top: 10px;
+}
+
+.day {
+  height: 60px;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 60px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+}
+
+.period {
+  background-color: #f88;
+}
+
+.heavy {
+  background-color: #c44;
+  color: white;
+}
+
+.fertile {
+  background-color: #cfc; /* zartgrün für fruchtbare Tage */
+}
+
+.ovulation {
+  background-color: #6f6;  /* kräftiger grün für Eisprung */
+  font-weight: bold;
+  border: 2px solid #393;
+}
+
