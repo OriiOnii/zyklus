@@ -10,11 +10,23 @@
 
 </head>
 <body>
+
+<div id="loginOverlay">
+  <div id="loginBox">
+    <h2>🔐 Login</h2>
+    <input type="password" id="loginPassword" placeholder="Passwort eingeben" />
+    <button onclick="checkLogin()">Einloggen</button>
+    <p id="loginError" style="color: red; display: none;">Falsches Passwort!</p>
+  </div>
+</div>
+
+
   <h1>Mein Zyklus-Kalender</h1>
 
   <label>Letzter Start: <input type="date" id="lastStart"></label><br /><br />
+  <button id="saveBtn">Speichern</button> <br>
   <button id="markTodayBtn">Heute hat meine Periode begonnen</button>
-  <button id="saveBtn">Speichern</button>
+  <button id="delayBtn">Hat noch nicht begonnen</button>
 
   <h2>Kalender des nächsten Jahres</h2>
   <p id="funMessage" style="font-weight: bold; font-size: 1.1em; margin-top: 20px;"></p>

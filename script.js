@@ -1,3 +1,15 @@
+const LOGIN_PASSWORD = "massaker"; // Passwort hier festlegen
+
+function checkLogin() {
+  const entered = document.getElementById("loginPassword").value;
+  if (entered === LOGIN_PASSWORD) {
+    document.getElementById("loginOverlay").style.display = "none";
+  } else {
+    document.getElementById("loginError").style.display = "block";
+  }
+}
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyD4klxUoDP_S7i5rJ89jnBCGNMEg5jZx4k",
   authDomain: "melizyklus.firebaseapp.com",
@@ -107,7 +119,7 @@ function saveLastStart(dateStr) {
     .catch((error) => alert("Fehler beim Speichern: " + error));
 }
 
-const PASSWORD = "blut";  // Passwort hier anpassen
+const PASSWORD = "blutbad";  // Passwort hier anpassen
 
 function checkPassword() {
   const input = prompt("Bitte Passwort eingeben:");
@@ -162,3 +174,28 @@ function showFunnyMessage(startDateStr) {
 
   $("#funMessage").text(message);
 }
+
+$("#delayBtn").click(() => {
+  if (!checkPassword()) return;
+
+  let currentDate = $("#lastStart").val();
+  if (!currentDate) {
+    alert("Kein Datum gespeichert.");
+    return;
+  }
+
+  // Um 1 Tag nach hinten verschieben
+  let date = new Date(currentDate);
+  date.setDate(date.getDate() + 1);
+
+  const newDateStr = date.toISOString().slice(0, 10);
+  $("#lastStart").val(newDateStr);
+  saveLastStart(newDateStr);
+});
+
+// Enter-Taste im Passwortfeld aktiviert Login
+document.getElementById("loginPassword").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    checkLogin();
+  }
+});
