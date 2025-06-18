@@ -1,15 +1,3 @@
-const LOGIN_PASSWORD = "massaker"; // Passwort hier festlegen
-
-function checkLogin() {
-  const entered = document.getElementById("loginPassword").value;
-  if (entered === LOGIN_PASSWORD) {
-    document.getElementById("loginOverlay").style.display = "none";
-  } else {
-    document.getElementById("loginError").style.display = "block";
-  }
-}
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyCu1TUO7ZRYhPu3yQFir94jN89_6rebytU",
   authDomain: "periode-zyklus.firebaseapp.com",
@@ -21,6 +9,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 const db = firebase.database();
 
 const cycleLength = 32;
@@ -59,40 +48,39 @@ function renderCalendar(startDateStr) {
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let d = 1; d <= daysInMonth; d++) {
-  const currentDate = new Date(year, month, d);
-  const diff = Math.floor((normalizeDate(currentDate) - normalizeDate(start)) / (1000 * 60 * 60 * 24));
-  const dayInCycle = ((diff % cycleLength) + cycleLength) % cycleLength;
+      const currentDate = new Date(year, month, d);
+      const diff = Math.floor((normalizeDate(currentDate) - normalizeDate(start)) / (1000 * 60 * 60 * 24));
+      const dayInCycle = ((diff % cycleLength) + cycleLength) % cycleLength;
 
-  const dayEl = $("<div>").addClass("day").text(d);
+      const dayEl = $("<div>").addClass("day").text(d);
 
-  if (dayInCycle >= 0 && dayInCycle < periodLength) {
-    dayEl.addClass("period");
-    if (dayInCycle < 2) {
-      dayEl.addClass("heavy");
-    }
-  } else if (dayInCycle >= 13 && dayInCycle <= 18) {
-    dayEl.addClass("fertile");
-    if (dayInCycle === 17) {
-      dayEl.addClass("ovulation");
+      if (dayInCycle >= 0 && dayInCycle < periodLength) {
+        dayEl.addClass("period");
+        if (dayInCycle < 2) {
+          dayEl.addClass("heavy");
+        }
+      } else if (dayInCycle >= 13 && dayInCycle <= 18) {
+        dayEl.addClass("fertile");
+        if (dayInCycle === 17) {
+          dayEl.addClass("ovulation");
+        }
+      }
+
+      // Heute markieren
+      const todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0); // Zeit zurücksetzen
+      const normalizedCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+      if (normalizedCurrentDate.getTime() === todayDate.getTime()) {
+        dayEl.addClass("today");
+      }
+
+      container.append(dayEl);
     }
   }
-
-  // **Hier NEU: Heute markieren**
-  const todayDate = new Date();
-  todayDate.setHours(0, 0, 0, 0); // Zeit zurücksetzen
-  const normalizedCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-
-  if (normalizedCurrentDate.getTime() === todayDate.getTime()) {
-    dayEl.addClass("today");
-  }
-
-  container.append(dayEl);
 }
 
-  }
-}
-
-// Lade das letzte Startdatum aus Firebase, oder nutze ein Standarddatum
+// Lade letztes Startdatum aus Firebase oder fallback
 function loadLastStart() {
   const ref = db.ref("lastStart");
   ref.on("value", (snapshot) => {
@@ -100,33 +88,63 @@ function loadLastStart() {
     if (val) {
       $("#lastStart").val(val);
       renderCalendar(val);
-      showFunnyMessage(val); // ➕ WICHTIG: hier aufrufen!
+      showFunnyMessage(val);
     } else {
       const fallbackDate = new Date();
       fallbackDate.setDate(fallbackDate.getDate() - 3);
       const fallbackStr = fallbackDate.toISOString().slice(0, 10);
       $("#lastStart").val(fallbackStr);
       renderCalendar(fallbackStr);
-      showFunnyMessage(fallbackStr); // ➕ auch hier
+      showFunnyMessage(fallbackStr);
     }
   });
 }
 
-// Speichere das Datum in Firebase
+// Speichere Datum in Firebase
 function saveLastStart(dateStr) {
   db.ref("lastStart").set(dateStr)
     .then(() => alert("Datum gespeichert!"))
     .catch((error) => alert("Fehler beim Speichern: " + error));
 }
 
-const PASSWORD = "blutbad";  // Passwort hier anpassen
+// Login mit Firebase Auth (Email/Passwort)
+function checkLogin() {
+  const passwordInput = document.getElementById("loginPassword").value;
+  const email = "admin@meinzyklus.de";  // Feste Email anpassen
 
+  auth.signInWithEmailAndPassword(email, passwordInput)
+    .then(() => {
+      document.getElementById("loginOverlay").style.display = "none";
+      document.getElementById("loginError").style.display = "none";
+    })
+    .catch((error) => {
+      document.getElementById("loginError").style.display = "block";
+      console.error("Login Fehler:", error.message);
+    });
+}
+
+// Enter-Taste im Passwortfeld startet Login
+document.getElementById("loginPassword").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    checkLogin();
+  }
+});
+
+// Overlay zeigen/verstecken je nach Auth Status
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("loginOverlay").style.display = "none";
+  } else {
+    document.getElementById("loginOverlay").style.display = "flex";
+  }
+});
+
+// Prüfe ob User eingeloggt ist
 function checkPassword() {
-  const input = prompt("Bitte Passwort eingeben:");
-  if (input === PASSWORD) {
+  if (auth.currentUser) {
     return true;
   } else {
-    alert("Falsches Passwort!");
+    alert("Bitte zuerst einloggen!");
     return false;
   }
 }
@@ -135,7 +153,7 @@ $(function () {
   loadLastStart();
 
   $("#saveBtn").click(() => {
-    if (!checkPassword()) return;  // Passwort falsch -> Abbruch
+    if (!checkPassword()) return;
     const dateStr = $("#lastStart").val();
     if (dateStr) {
       saveLastStart(dateStr);
@@ -145,10 +163,27 @@ $(function () {
   });
 
   $("#markTodayBtn").click(() => {
-    if (!checkPassword()) return;  // Passwort falsch -> Abbruch
+    if (!checkPassword()) return;
     const todayStr = new Date().toISOString().slice(0, 10);
     $("#lastStart").val(todayStr);
     saveLastStart(todayStr);
+  });
+
+  $("#delayBtn").click(() => {
+    if (!checkPassword()) return;
+
+    let currentDate = $("#lastStart").val();
+    if (!currentDate) {
+      alert("Kein Datum gespeichert.");
+      return;
+    }
+
+    let date = new Date(currentDate);
+    date.setDate(date.getDate() + 1);
+
+    const newDateStr = date.toISOString().slice(0, 10);
+    $("#lastStart").val(newDateStr);
+    saveLastStart(newDateStr);
   });
 });
 
@@ -175,27 +210,3 @@ function showFunnyMessage(startDateStr) {
   $("#funMessage").text(message);
 }
 
-$("#delayBtn").click(() => {
-  if (!checkPassword()) return;
-
-  let currentDate = $("#lastStart").val();
-  if (!currentDate) {
-    alert("Kein Datum gespeichert.");
-    return;
-  }
-
-  // Um 1 Tag nach hinten verschieben
-  let date = new Date(currentDate);
-  date.setDate(date.getDate() + 1);
-
-  const newDateStr = date.toISOString().slice(0, 10);
-  $("#lastStart").val(newDateStr);
-  saveLastStart(newDateStr);
-});
-
-// Enter-Taste im Passwortfeld aktiviert Login
-document.getElementById("loginPassword").addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    checkLogin();
-  }
-});
