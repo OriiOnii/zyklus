@@ -152,54 +152,33 @@ button:hover {
 }
 
 @media (max-width: 600px) {
-  .main-container {
+  body {
     margin: 10px;
-    padding: 15px;
-    box-shadow: none;
-    border-radius: 0;
+    font-size: 10px;
+  }
+
+  .main-container {
+    padding: 20px;
+    margin: 20px 10px;
   }
 
   #calendarContainer {
+    grid-template-columns: repeat(7, 1fr);
     gap: 2px;
   }
 
   .day {
-    height: 45px;
-    line-height: 45px;
-    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 10px;
   }
 
   button {
     width: 100%;
     margin-bottom: 10px;
-    font-size: 1em;
   }
 
   #loginBox {
     width: 90%;
-    padding: 20px;
-  }
-
-  #loginBox input {
-    font-size: 1em;
-    padding: 10px;
-  }
-
-  #loginBox button {
-    font-size: 1em;
-    padding: 10px;
-  }
-
-  .legend-box {
-    width: 14px;
-    height: 14px;
-    margin-right: 4px;
-  }
-
-  .legend-entry {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    margin-bottom: 5px;
   }
 }
