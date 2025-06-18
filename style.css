@@ -65,7 +65,7 @@ button:hover {
 }
 
 #calendarScrollContainer {
-  max-height: 50vh;
+  max-height: 70vh;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
@@ -142,7 +142,7 @@ button:hover {
 }
 
 .main-container {
-  max-width: 900px;
+  max-width: 700px;
   margin: 40px auto;
   padding: 30px;
   background-color: white;
