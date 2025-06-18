@@ -106,7 +106,7 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff0f6;
+  background-color: rgb(18, 18, 23);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,9 +114,9 @@ button:hover {
 }
 
 #loginBox {
-  background: white;
+  background: #2a293d;
   padding: 30px;
-  border: 2px solid #d63384;
+  border: 2px solid rgb(146, 61, 125);
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0,0,0,0.2);
   text-align: center;
@@ -132,8 +132,8 @@ button:hover {
 }
 
 #loginBox button {
-  background-color: #d63384;
-  color: white;
+  background-color: rgb(146, 61, 125);
+  color: rgb(255, 255, 255);
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -145,10 +145,10 @@ button:hover {
   max-width: 700px;
   margin: 40px auto;
   padding: 30px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgb(231, 109, 201);
   border-radius: 16px;
-  color: #5a1a4d;
+  color: rgb(53, 39, 63);
 }
 
 @media (max-width: 600px) {
@@ -179,6 +179,232 @@ button:hover {
   }
 
   #loginBox {
+    width: 90%;
+  }
+}
+
+/* Dark Mode aktiv */
+body.dark {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #121212; /* sehr dunkler Hintergrund */
+  color: #ddd;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark .main-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #1b1b1b;
+  box-shadow: 0 0 20px rgba(226, 96, 194, 0.2);
+  border-radius: 16px;
+  color: rgb(255, 255, 255);
+}
+
+body.dark label {
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+
+body.dark button {
+  background-color: rgb(146, 61, 125);
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease;
+}
+
+body.dark button:hover {
+  background-color: rgb(243, 124, 211);
+  color: #ffffff;
+}
+
+/* Kalender Grid */
+body.dark #calendarContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* Tage im Kalender */
+body.dark .day {
+  height: 60px;
+  border: 1px solid #555577;
+  text-align: center;
+  line-height: 60px;
+  font-size: 16px;
+  background-color: #2a2940;
+  border-radius: 6px;
+  color: #f3e9dc;
+  user-select: none;
+}
+
+/* Farbige Status-Tage */
+body.dark .period {
+  background-color: #aa3948; /* dunkles Rot */
+  color: #fce8e6;
+}
+
+body.dark .heavy {
+  background-color: #500f16; /* noch dunkleres Rot */
+  color: #fce8e6;
+}
+
+body.dark .fertile {
+  background-color: #367a36; /* dunkles Grün */
+  color: #d1f2d1;
+}
+
+body.dark .ovulation {
+  background-color: #60c263; /* kräftiges Grün */
+  font-weight: bold;
+  color: #e6f4e6;
+}
+
+body.dark .today {
+  border: 4px solid #489ff5;
+  font-weight: bold;
+  color: #aad4ff;
+}
+
+/* Scrollcontainer für Kalender */
+body.dark #calendarScrollContainer {
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 1px solid #555577;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #1b1b1b;
+}
+
+/* Legendenfarben */
+body.dark .legend-box {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  border: 1px solid #555577;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+body.dark .legend-box.period {
+  background-color: #aa3948;
+}
+
+body.dark .legend-box.heavy {
+  background-color: #500f16;
+}
+
+body.dark .legend-box.fertile {
+  background-color: #367a36;
+}
+
+body.dark .legend-box.ovulation {
+  background-color: #60c263;
+}
+
+body.dark .legend-box.today {
+  background-color: #489ff5;
+}
+
+/* Login Overlay */
+body.dark #loginOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 18, 23, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Login Box */
+body.dark #loginBox {
+  background: #2a293d;
+  padding: 30px;
+  border: 2px solid rgb(146, 61, 125);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+  text-align: center;
+  color: #f3e9dc;
+}
+
+/* Login Input */
+body.dark #loginBox input {
+  padding: 8px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #555577;
+  border-radius: 6px;
+  background-color: #1b1b1b;
+  color: #ddd;
+}
+
+/* Login Button */
+body.dark #loginBox button {
+  background-color: #444466;
+  color: rgb(146, 61, 125);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+body.dark #loginBox button:hover {
+  background-color: #ffcc00;
+  color: #222;
+}
+
+/* Login Error Text */
+body.dark #loginError {
+  color: #ff6b6b;
+  font-weight: bold;
+  margin-top: 5px;
+  display: none;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 600px) {
+  body.dark {
+    font-size: 14px;
+    margin: 10px;
+  }
+
+  body.dark .main-container {
+    padding: 20px;
+    margin: 20px 10px;
+  }
+
+  body.dark #calendarContainer {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  body.dark .day {
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+  }
+
+  body.dark button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  body.dark #loginBox {
     width: 90%;
   }
 }

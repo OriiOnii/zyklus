@@ -208,3 +208,23 @@ function showFunnyMessage(startDateStr) {
 
   $("#funMessage").text(message);
 }
+
+const toggleBtn = document.getElementById('darkModeToggle');
+
+// Dark Mode standardmäßig aktivieren, wenn nichts gespeichert ist
+if (localStorage.getItem('darkMode') !== 'disabled') {
+  document.body.classList.add('dark');
+}
+
+// Button-Klick: Umschalten und speichern
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    localStorage.setItem('darkMode', 'disabled');
+  }
+});
+
+
