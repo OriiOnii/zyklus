@@ -15,6 +15,9 @@ const db = firebase.database();
 const cycleLength = 32;
 const periodLength = 6;
 
+// Das Passwort für Aktionen (Speichern, Markieren, Verzögern)
+const EDIT_PASSWORD = "blutbad";  // <-- Hier dein gewünschtes Passwort eintragen
+
 function normalizeDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
@@ -33,17 +36,15 @@ function renderCalendar(startDateStr) {
     const month = firstDay.getMonth();
     const year = firstDay.getFullYear();
 
-    // Monatsüberschrift
     const monthName = firstDay.toLocaleString("de-DE", { month: "long", year: "numeric" });
     container.append(`<div class="month-header" style="grid-column: span 7; font-weight:bold; text-align:center; margin: 10px 0;">${monthName}</div>`);
 
-    // Wochentage
     const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
     weekdays.forEach(w => container.append(`<div style="font-weight: bold; text-align: center;">${w}</div>`));
 
-    const firstWeekday = (firstDay.getDay() + 6) % 7; // JS: So=0, Mo=1... → Mo=0
+    const firstWeekday = (firstDay.getDay() + 6) % 7;
     for (let i = 0; i < firstWeekday; i++) {
-      container.append(`<div></div>`); // leere Zellen vor Monatsstart
+      container.append(`<div></div>`);
     }
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -66,9 +67,8 @@ function renderCalendar(startDateStr) {
         }
       }
 
-      // Heute markieren
       const todayDate = new Date();
-      todayDate.setHours(0, 0, 0, 0); // Zeit zurücksetzen
+      todayDate.setHours(0, 0, 0, 0);
       const normalizedCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
       if (normalizedCurrentDate.getTime() === todayDate.getTime()) {
@@ -80,7 +80,6 @@ function renderCalendar(startDateStr) {
   }
 }
 
-// Lade letztes Startdatum aus Firebase oder fallback
 function loadLastStart() {
   const ref = db.ref("lastStart");
   ref.on("value", (snapshot) => {
@@ -100,60 +99,58 @@ function loadLastStart() {
   });
 }
 
-// Speichere Datum in Firebase
 function saveLastStart(dateStr) {
   db.ref("lastStart").set(dateStr)
     .then(() => alert("Datum gespeichert!"))
     .catch((error) => alert("Fehler beim Speichern: " + error));
 }
 
-// Login mit Firebase Auth (Email/Passwort)
-function checkLogin() {
-  const passwordInput = document.getElementById("loginPassword").value;
-  const email = "admin@meinzyklus.de";  // Feste Email anpassen
-
-  auth.signInWithEmailAndPassword(email, passwordInput)
-    .then(() => {
-      document.getElementById("loginOverlay").style.display = "none";
-      document.getElementById("loginError").style.display = "none";
-    })
-    .catch((error) => {
-      document.getElementById("loginError").style.display = "block";
-      console.error("Login Fehler:", error.message);
-    });
-}
-
-// Enter-Taste im Passwortfeld startet Login
-document.getElementById("loginPassword").addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    checkLogin();
-  }
-});
-
-// Overlay zeigen/verstecken je nach Auth Status
-auth.onAuthStateChanged(user => {
-  if (user) {
-    document.getElementById("loginOverlay").style.display = "none";
-  } else {
-    document.getElementById("loginOverlay").style.display = "flex";
-  }
-});
-
-// Prüfe ob User eingeloggt ist
-function checkPassword() {
-  if (auth.currentUser) {
+function checkEditPassword() {
+  const input = prompt("Bitte Passwort für diese Aktion eingeben:");
+  if (input === EDIT_PASSWORD) {
     return true;
   } else {
-    alert("Bitte zuerst einloggen!");
+    alert("Falsches Passwort!");
     return false;
   }
 }
 
 $(function () {
-  loadLastStart();
+  // Firebase-Login-Status prüfen
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      $("#loginOverlay").hide();
+      loadLastStart();
+    } else {
+      $("#loginOverlay").show();
+    }
+  });
 
+  // Login-Button (Overlay)
+  $("#loginBox button").click(() => {
+    const email = prompt("E-Mail eingeben:");
+    const password = $("#loginPassword").val();
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        $("#loginPassword").val("");
+        $("#loginError").hide();
+      })
+      .catch(() => {
+        $("#loginError").show();
+      });
+  });
+
+  // Enter-Taste im Passwortfeld
+  $("#loginPassword").keydown(function (e) {
+    if (e.key === "Enter") {
+      $("#loginBox button").click();
+    }
+  });
+
+  // Speichern-Button
   $("#saveBtn").click(() => {
-    if (!checkPassword()) return;
+    if (!checkEditPassword()) return;
     const dateStr = $("#lastStart").val();
     if (dateStr) {
       saveLastStart(dateStr);
@@ -162,15 +159,17 @@ $(function () {
     }
   });
 
+  // Heute-markieren-Button
   $("#markTodayBtn").click(() => {
-    if (!checkPassword()) return;
+    if (!checkEditPassword()) return;
     const todayStr = new Date().toISOString().slice(0, 10);
     $("#lastStart").val(todayStr);
     saveLastStart(todayStr);
   });
 
+  // Verzögern-Button
   $("#delayBtn").click(() => {
-    if (!checkPassword()) return;
+    if (!checkEditPassword()) return;
 
     let currentDate = $("#lastStart").val();
     if (!currentDate) {
@@ -209,4 +208,3 @@ function showFunnyMessage(startDateStr) {
 
   $("#funMessage").text(message);
 }
-
