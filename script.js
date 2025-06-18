@@ -11,13 +11,13 @@ function checkLogin() {
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD4klxUoDP_S7i5rJ89jnBCGNMEg5jZx4k",
-  authDomain: "melizyklus.firebaseapp.com",
-  databaseURL: "https://melizyklus-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "melizyklus",
-  storageBucket: "melizyklus.firebasestorage.app",
-  messagingSenderId: "744492071683",
-  appId: "1:744492071683:web:48c2e6bcdb862a76f84736"
+  apiKey: "AIzaSyCu1TUO7ZRYhPu3yQFir94jN89_6rebytU",
+  authDomain: "periode-zyklus.firebaseapp.com",
+  databaseURL: "https://periode-zyklus-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "periode-zyklus",
+  storageBucket: "periode-zyklus.firebasestorage.app",
+  messagingSenderId: "623369742916",
+  appId: "1:623369742916:web:2d5bd0d0299e8fb0a9ea11"
 };
 
 firebase.initializeApp(firebaseConfig);
