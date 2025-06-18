@@ -128,7 +128,7 @@ $(function () {
 
   // Login-Button (Overlay)
   $("#loginBox button").click(() => {
-    const email = prompt("E-Mail eingeben:");
+    const email = "admin@meinzyklus.de";
     const password = $("#loginPassword").val();
 
     auth.signInWithEmailAndPassword(email, password)
