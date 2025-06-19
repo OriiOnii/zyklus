@@ -60,7 +60,7 @@ function renderCalendar(startDateStr) {
         if (dayInCycle < 2) {
           dayEl.addClass("heavy");
         }
-      } else if (dayInCycle >= 13 && dayInCycle <= 18) {
+      } else if (dayInCycle >= 14 && dayInCycle <= 18) {
         dayEl.addClass("fertile");
         if (dayInCycle === 17) {
           dayEl.addClass("ovulation");
@@ -195,13 +195,17 @@ function showFunnyMessage(startDateStr) {
   let message = "";
 
   if (cycleDay === 1 || cycleDay === 2) {
-    message = "Status: 🩸 Blutbad mit Schmerzgarantie 🩸";
+    message = "Status: 💥 Blut, Schmerz und Drama - der Dreier, den ich NICHT wollte 💥";
   } else if (cycleDay >= 3 && cycleDay <= 6) {
-    message = "Status: 🩸 Blutet aber überlebt 🩸";
+    message = "Status: 🩸 Das Blut tropft weiter, Geduld ist am Ende 🩸";
+  } else if (cycleDay >= 19 && cycleDay <= 25) {
+    message = "Status: 🥀 Gefühle im Aufruhr, aber noch keine Sturmwarnung 🥀";
+  } else if (cycleDay >= 26 && cycleDay <= 32) {
+    message = "Status: 🧨 Zwischen Cravings und Tränen – dein Gesicht nervt, Kuchen hilft 🧨";
   } else if (cycleDay === 17) {
-    message = "Status: 💦 Lust-Level auf MAX 💦";
+    message = "Status: 🔥 Vorsicht – könnte spontan flirten oder Babys machen 🔥";
   } else if (cycleDay >= 14 && cycleDay <= 18) {
-    message = "Status: 💦 Fruchtbar und unwiderstehlich 💦";
+    message = "Status: 💦 Fruchtbar und unwiderstehlich - meine Beute hat keine Chance 💦";
   } else {
     message = "Status: 👌 Wieder bereit für Abenteuer 👌";
   }
