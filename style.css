@@ -56,12 +56,12 @@ button:hover {
 
 .ovulation {
   background-color: rgb(82, 252, 82);  /* kräftiger grün für Eisprung */
-  font-weight: bold
 }
 
 .today {
   border: 4px solid #489ff5;
-  font-weight: bold
+  font-weight: bold;
+  color:#467db4
 }
 
 #calendarScrollContainer {
@@ -186,13 +186,13 @@ button:hover {
 
 /* Dark Mode aktiv */
 body.dark {
-  background-color: #121212; /* sehr dunkler Hintergrund */
+  background-color: #1a1a1a; /* sehr dunkler Hintergrund */
   color: #ddd;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark .main-container {
-  background-color: #1b1b1b;
+  background-color: #202020;
   box-shadow: 0 0 20px rgba(226, 96, 194, 0.2);
   border-radius: 16px;
   color: rgb(255, 255, 255);
@@ -229,22 +229,22 @@ body.dark .day {
 
 /* Farbige Status-Tage */
 body.dark .period {
-  background-color: #aa3948; /* dunkles Rot */
+  background-color: #b95f6b; /* dunkles Rot */
   color: #fce8e6;
 }
 
 body.dark .heavy {
-  background-color: #500f16; /* noch dunkleres Rot */
+  background-color: #8a2731; /* noch dunkleres Rot */
   color: #fce8e6;
 }
 
 body.dark .fertile {
-  background-color: #367a36; /* dunkles Grün */
+  background-color: #62ac64; /* dunkles Grün */
   color: #d1f2d1;
 }
 
 body.dark .ovulation {
-  background-color: #60c263; /* kräftiges Grün */
+  background-color: #2d8a2d; /* kräftiges Grün */
   color: #e6f4e6;
 }
 
@@ -265,19 +265,19 @@ body.dark .legend-box {
 }
 
 body.dark .legend-box.period {
-  background-color: #aa3948;
+  background-color: #b95f6b;
 }
 
 body.dark .legend-box.heavy {
-  background-color: #500f16;
+  background-color: #8a2731;
 }
 
 body.dark .legend-box.fertile {
-  background-color: #367a36;
+  background-color: #62ac64;
 }
 
 body.dark .legend-box.ovulation {
-  background-color: #60c263;
+  background-color: #2d8a2d;
 }
 
 body.dark .legend-box.today {
